@@ -293,3 +293,38 @@ public Object getValue() {}
 
 ### Disclaimers ###
 This helper class only reads JSON, it does not write it. For writing, may we suggest using the native and perfectly serviceable [JSON.serialize()](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_class_System_Json.htm)!
+
+## Deploy (SFDX)
+
+Covert with SFDX; This creates a folder called `deploy`
+
+```bash
+sfdx force:source:convert -r force-app -d deploy
+```
+
+Now you can deploy from the resulting `deploy` directory
+
+```bash
+sfdx force:mdapi:deploy -d deploy -w -1  --verbose
+```
+
+📌  Above deploys to the default org set without running tests
+
+- To deploy else where, add `-u user@domain.com` or `-u alias`
+- To run tests, add `-l RunSpecifiedTests -r JSONParseTests`
+
+Results should more or less mirror below
+
+```bash
+Using specified username [user@domain.box]
+
+Job ID | 0Af1h00000VfFI3CAN
+
+MDAPI PROGRESS | ████████████████████████████████████████ | 2/2 Components
+
+TYPE       FILE                               NAME            ID
+─────────  ─────────────────────────────────  ──────────────  ──────────────────
+           deploy/package.xml                 package.xml
+ApexClass  deploy/classes/JSONParse.cls       JSONParse       01p1h000005B9QYAA0
+ApexClass  deploy/classes/JSONParseTests.cls  JSONParseTests  01p1h000005B9QZAA0
+```
